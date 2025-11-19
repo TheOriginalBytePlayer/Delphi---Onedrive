@@ -59,7 +59,7 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     ProgressBar1: TProgressBar;
-    edtArquivo: TEdit;
+    edtFile: TEdit;
     Button3: TButton;
     Button1: TButton;
     SpinEdit1: TSpinEdit;
@@ -112,8 +112,8 @@ implementation
 
 procedure TForm15.Button1Click(Sender: TObject);
 begin
-  if FileExists(edtArquivo.Text) then begin
-    DropBox.Upload(edtArquivo.Text);
+  if FileExists(edtFile.Text) then begin
+    DropBox.Upload(edtFile.Text);
   end else
     ShowMessage('Selecione um arquivo válido!');
 end;
@@ -303,7 +303,7 @@ end;
 procedure TForm15.Button3Click(Sender: TObject);
 begin
   if OpenDialog1.Execute then
-    edtArquivo.Text := OpenDialog1.FileName;
+    edtFile.Text := OpenDialog1.FileName;
 end;
 
 procedure TForm15.AddPath(Tree: TTreeView; List: TStringList);

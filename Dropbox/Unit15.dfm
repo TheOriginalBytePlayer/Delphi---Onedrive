@@ -317,7 +317,7 @@ object Form15: TForm15
       Top = 6
       Width = 126
       Height = 16
-      Caption = 'PASTAS/ARQUIVOS'
+      Caption = 'FOLDERS/FILES'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
