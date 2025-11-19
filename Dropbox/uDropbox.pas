@@ -330,7 +330,7 @@ begin
       IdHTTP.get(URL_FILE_DOWNLOAD, Source);
 
       Source.Position := 0;
-      Source.SaveToFile('c:' + sFilePath);
+      Source.SaveToFile(sDestination);
 
     except
       on E: EIdHTTPProtocolException do
