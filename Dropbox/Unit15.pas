@@ -77,7 +77,7 @@ type
     Button2: TButton;
     Button9: TButton;
     TreeView1: TTreeView;
-    edtPasta: TEdit;
+    edtFolder: TEdit;
     Label1: TLabel;
     Label13: TLabel;
     ProgressBar2: TProgressBar;
@@ -185,12 +185,12 @@ begin
       DropBox.Download(sPath, 'c:' + sPath);
 
     //DropBox.DefaultFolder := sPath;
-    //edtPasta.Text := DropBox.DefaultFolder;
+    //edtFolder.Text := DropBox.DefaultFolder;
   end
   else
   begin
     //DropBox.DefaultFolder := '/';
-    //edtPasta.Text := DropBox.DefaultFolder;
+    //edtFolder.Text := DropBox.DefaultFolder;
   end;
 end;
 
@@ -239,7 +239,7 @@ begin
   DropBox.MemoLog := Memo1;
   DropBox.OnGetAccountInfo := PreencherAccountInfo;
   DropBox.OnChange := DropBOxOnChange;
-  edtPasta.Text := DropBox.DefaultFolder;
+  edtFolder.Text := DropBox.DefaultFolder;
 end;
 
 procedure TForm15.GetFolderListClick(Sender: TObject);
@@ -280,12 +280,12 @@ begin
       sPath := '/';
 
     DropBox.DefaultFolder := sPath;
-    edtPasta.Text := DropBox.DefaultFolder;
+    edtFolder.Text := DropBox.DefaultFolder;
   end
   else
   begin
     DropBox.DefaultFolder := '/';
-    edtPasta.Text := DropBox.DefaultFolder;
+    edtFolder.Text := DropBox.DefaultFolder;
   end;
 end;
 

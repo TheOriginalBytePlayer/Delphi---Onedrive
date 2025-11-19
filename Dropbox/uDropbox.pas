@@ -919,7 +919,7 @@ begin
       FUploadSessionID := jv.Value;
       FSectionDateTime := now();
       FLog.Add('Upload Session Start ID: ' + FUploadSessionID);
-      FLog.Add('Enviado: ' + inttostr(FDataSent) + ' de ' + inttostr(Source.Size));
+      FLog.Add('Sent: ' + inttostr(FDataSent) + ' of ' + inttostr(Source.Size));
 
     end;
 
@@ -976,7 +976,7 @@ begin
 
       Res := IdHTTP.Post(URL_FILE_SESSION_APPEND, ms);
 
-      FLog.Add('Enviado: ' + inttostr(FDataSent) + ' de ' + inttostr(Source.Size));
+      FLog.Add('Sent: ' + inttostr(FDataSent) + ' of ' + inttostr(Source.Size));
 
       if Assigned(FOnUploadProgress) then
         FOnUploadProgress(FFullFileName, Source.Size, FDataSent, FUploadSessionID, FQtyParts, FQtySent);
@@ -1096,7 +1096,7 @@ begin
     FileSize := Source.Size;
     vMB := (FileSize / (1024 * 1024));
 
-    FLog.Add('Arquivo: ' + sFile + ' Size: ' + FormatFloat('###0.###', (vMB)) + 'MB ');
+    FLog.Add('File: ' + sFile + ' Size: ' + FormatFloat('###0.###', (vMB)) + 'MB ');
 
     if FileSize < MaxFileSize then
     begin
@@ -1177,7 +1177,7 @@ begin
 
   if e.ErrorCode = 429 then
   begin
-    result := ('A aplicação está fazendo requisições demais e atingiu o limite de conexões; Aguarde 10 segundos e tente novamente.: ' + e.Message);
+    result := ('A aplicação está fazendo requisições demais e atingiu o limite of conexões; Aguarde 10 segundos e tente novamente.: ' + e.Message);
   end;
 end;
 
