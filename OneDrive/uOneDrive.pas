@@ -14,7 +14,9 @@ const
   AppKey = 'c0429cee-b3a8-4875-850c-ceb0fa6efd49';
   AppSecret = 'podnUS249~#iunTEAQN81|-';
   redirect_uri = 'https://login.live.com/oauth20_desktop.srf';
-  scope = 'files.readwrite.all, wl.offline_access, wl.basic, wl.offline_access, wl.signin, openid, profile, offline_access, user.readwrite, mail.readwrite, mail.send';
+  // Scopes limited to app-specific folder access only (Files.ReadWrite.AppFolder)
+  // instead of full file access (files.readwrite.all) for security
+  scope = 'Files.ReadWrite.AppFolder offline_access openid profile User.Read';
   URL_ACESS_CODE = 'https://login.live.com/oauth20_authorize.srf?client_id=%s&scope=%s&response_type=code&redirect_uri=%s';
 
   //API
