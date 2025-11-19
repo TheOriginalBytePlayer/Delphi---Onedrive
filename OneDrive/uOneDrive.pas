@@ -14,7 +14,9 @@ const
   AppKey = 'c0429cee-b3a8-4875-850c-ceb0fa6efd49';
   AppSecret = 'podnUS249~#iunTEAQN81|-';
   redirect_uri = 'https://login.live.com/oauth20_desktop.srf';
-  scope = 'files.readwrite.all, wl.offline_access, wl.basic, wl.offline_access, wl.signin, openid, profile, offline_access, user.readwrite, mail.readwrite, mail.send';
+  // Scopes limited to app-specific folder access only (Files.ReadWrite.AppFolder)
+  // instead of full file access (files.readwrite.all) for security
+  scope = 'Files.ReadWrite.AppFolder offline_access openid profile User.Read';
   URL_ACESS_CODE = 'https://login.live.com/oauth20_authorize.srf?client_id=%s&scope=%s&response_type=code&redirect_uri=%s';
 
   //API
@@ -311,7 +313,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
 
       end;
@@ -370,7 +372,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -416,7 +418,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -501,7 +503,7 @@ begin
       except
         on E: EIdHTTPProtocolException do
         begin
-          FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+          FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
           raise Exception.Create(GetException(e));
         end;
       end;
@@ -558,7 +560,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -573,7 +575,7 @@ procedure TOneDrive.VerificaAcessCode;
 begin
   if FAcessCode = '' then
   begin
-    raise Exception.Create('AcessCode não foi informado.');
+    raise Exception.Create('AcessCode nï¿½o foi informado.');
   end;
 end;
 
@@ -600,7 +602,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
 
       end;
@@ -637,7 +639,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -685,7 +687,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -760,7 +762,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -1018,7 +1020,7 @@ begin
         if Assigned(FOnUploadError) then
           FOnUploadError(FFullFileName, FMaxFileSize, Source.Size, FDataSent, FUploadSessionID, FSectionDateTime);
 
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -1095,7 +1097,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
 
         if Assigned(FOnUploadError) then
           FOnUploadError(FFullFileName, FMaxFileSize, Source.Size, FDataSent, FUploadSessionID, FSectionDateTime);
@@ -1154,7 +1156,7 @@ begin
       except
         on E: EIdHTTPProtocolException do
         begin
-          FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+          FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
 
           if Assigned(FOnUploadError) then
             FOnUploadError(FFullFileName, FMaxFileSize, Source.Size, FDataSent, FUploadSessionID, FSectionDateTime);
@@ -1226,7 +1228,7 @@ begin
       except
         on E: EIdHTTPProtocolException do
         begin
-          FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+          FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
           raise Exception.Create(GetException(e));
         end;
       end;
@@ -1261,7 +1263,7 @@ procedure TOneDrive.VerificaAcessToken;
 begin
   if FAcessToken = '' then
   begin
-    raise Exception.Create('AcessToken não foi informado.');
+    raise Exception.Create('AcessToken nï¿½o foi informado.');
   end;
 end;
 
@@ -1269,7 +1271,7 @@ procedure TOneDrive.VerificaRefreshToken;
 begin
   if FRefreshToken = '' then
   begin
-    raise Exception.Create('RefreshToken não foi informado.');
+    raise Exception.Create('RefreshToken nï¿½o foi informado.');
   end;
 end;
 
@@ -1277,7 +1279,7 @@ function TOneDrive.GetException(e: EIdHTTPProtocolException): string;
 begin
   if e.ErrorCode = 401 then
   begin
-    result := ('Token expirado ou inválido!');
+    result := ('Token expirado ou invï¿½lido!');
   end;
 
   if e.ErrorCode = 409 then
@@ -1287,7 +1289,7 @@ begin
 
   if e.ErrorCode = 429 then
   begin
-    result := ('A aplicação está fazendo requisições demais e atingiu o limite de conexões; Aguarde 10 segundos e tente novamente.: ' + e.Message);
+    result := ('A aplicaï¿½ï¿½o estï¿½ fazendo requisiï¿½ï¿½es demais e atingiu o limite de conexï¿½es; Aguarde 10 segundos e tente novamente.: ' + e.Message);
   end;
 
   result := result + ' ----- ' + IntToStr(e.ErrorCode) + ') ' + e.Message;
