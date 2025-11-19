@@ -59,7 +59,7 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     ProgressBar1: TProgressBar;
-    edtArquivo: TEdit;
+    edtFile: TEdit;
     Button3: TButton;
     Button1: TButton;
     SpinEdit1: TSpinEdit;
@@ -77,7 +77,7 @@ type
     Button2: TButton;
     Button9: TButton;
     TreeView1: TTreeView;
-    edtPasta: TEdit;
+    edtFolder: TEdit;
     Label1: TLabel;
     Label13: TLabel;
     ProgressBar2: TProgressBar;
@@ -112,10 +112,10 @@ implementation
 
 procedure TForm15.Button1Click(Sender: TObject);
 begin
-  if FileExists(edtArquivo.Text) then begin
-    DropBox.Upload(edtArquivo.Text);
+  if FileExists(edtFile.Text) then begin
+    DropBox.Upload(edtFile.Text);
   end else
-    ShowMessage('Selecione um arquivo válido!');
+    ShowMessage('Select a valid file!');
 end;
 
 procedure TForm15.Button4Click(Sender: TObject);
@@ -150,7 +150,7 @@ begin
     edtAcessToken.Text := DropBox.AcessToken;
   end
   else
-    ShowMessage('Acess Code inválido!');
+    ShowMessage('Invalid Access Code!');
 
   if DropBox.AcessToken <> '' then
   begin
@@ -158,7 +158,7 @@ begin
   end
   else
   begin
-    ShowMessage('Acess Token inválido!');
+    ShowMessage('Invalid Access Token!');
   end;
 
 end;
@@ -185,12 +185,12 @@ begin
       DropBox.Download(sPath, 'c:' + sPath);
 
     //DropBox.DefaultFolder := sPath;
-    //edtPasta.Text := DropBox.DefaultFolder;
+    //edtFolder.Text := DropBox.DefaultFolder;
   end
   else
   begin
     //DropBox.DefaultFolder := '/';
-    //edtPasta.Text := DropBox.DefaultFolder;
+    //edtFolder.Text := DropBox.DefaultFolder;
   end;
 end;
 
@@ -239,7 +239,7 @@ begin
   DropBox.MemoLog := Memo1;
   DropBox.OnGetAccountInfo := PreencherAccountInfo;
   DropBox.OnChange := DropBOxOnChange;
-  edtPasta.Text := DropBox.DefaultFolder;
+  edtFolder.Text := DropBox.DefaultFolder;
 end;
 
 procedure TForm15.GetFolderListClick(Sender: TObject);
@@ -280,12 +280,12 @@ begin
       sPath := '/';
 
     DropBox.DefaultFolder := sPath;
-    edtPasta.Text := DropBox.DefaultFolder;
+    edtFolder.Text := DropBox.DefaultFolder;
   end
   else
   begin
     DropBox.DefaultFolder := '/';
-    edtPasta.Text := DropBox.DefaultFolder;
+    edtFolder.Text := DropBox.DefaultFolder;
   end;
 end;
 
@@ -303,7 +303,7 @@ end;
 procedure TForm15.Button3Click(Sender: TObject);
 begin
   if OpenDialog1.Execute then
-    edtArquivo.Text := OpenDialog1.FileName;
+    edtFile.Text := OpenDialog1.FileName;
 end;
 
 procedure TForm15.AddPath(Tree: TTreeView; List: TStringList);

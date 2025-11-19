@@ -18,7 +18,7 @@ object Form34: TForm34
     Top = 8
     Width = 409
     Height = 177
-    Caption = '  Fun'#231#245'es de Login  '
+    Caption = '  Login Functions  '
     TabOrder = 0
   end
 end
