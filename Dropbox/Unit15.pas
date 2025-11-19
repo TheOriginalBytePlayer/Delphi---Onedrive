@@ -115,7 +115,7 @@ begin
   if FileExists(edtFile.Text) then begin
     DropBox.Upload(edtFile.Text);
   end else
-    ShowMessage('Selecione um arquivo válido!');
+    ShowMessage('Select a valid file!');
 end;
 
 procedure TForm15.Button4Click(Sender: TObject);
@@ -150,7 +150,7 @@ begin
     edtAcessToken.Text := DropBox.AcessToken;
   end
   else
-    ShowMessage('Acess Code inválido!');
+    ShowMessage('Invalid Access Code!');
 
   if DropBox.AcessToken <> '' then
   begin
@@ -158,7 +158,7 @@ begin
   end
   else
   begin
-    ShowMessage('Acess Token inválido!');
+    ShowMessage('Invalid Access Token!');
   end;
 
 end;
