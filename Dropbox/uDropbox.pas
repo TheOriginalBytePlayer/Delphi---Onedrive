@@ -335,7 +335,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
 
       end;
@@ -401,7 +401,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -463,7 +463,7 @@ begin
       except
         on E: EIdHTTPProtocolException do
         begin
-          FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+          FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
           raise Exception.Create(GetException(e));
         end;
       end;
@@ -499,7 +499,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
 
       end;
@@ -536,7 +536,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -584,7 +584,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -659,7 +659,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -907,7 +907,7 @@ begin
         if Assigned(FOnUploadError) then
           FOnUploadError(FFullFileName, FMaxFileSize, Source.Size, FDataSent, FUploadSessionID, FSectionDateTime);
 
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -984,7 +984,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
 
         if Assigned(FOnUploadError) then
           FOnUploadError(FFullFileName, FMaxFileSize, Source.Size, FDataSent, FUploadSessionID, FSectionDateTime);
@@ -1043,7 +1043,7 @@ begin
       except
         on E: EIdHTTPProtocolException do
         begin
-          FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+          FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
 
           if Assigned(FOnUploadError) then
             FOnUploadError(FFullFileName, FMaxFileSize, Source.Size, FDataSent, FUploadSessionID, FSectionDateTime);
@@ -1115,7 +1115,7 @@ begin
       except
         on E: EIdHTTPProtocolException do
         begin
-          FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+          FLog.Add('Cï¿½digo: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
           raise Exception.Create(GetException(e));
         end;
       end;
@@ -1151,7 +1151,7 @@ procedure TDropBox.VerificaAcessCode;
 begin
   if FAcessCode = '' then
   begin
-    raise Exception.Create('AcessCode não foi informado.');
+    raise Exception.Create('AcessCode nï¿½o foi informado.');
   end;
 end;
 
@@ -1159,15 +1159,17 @@ procedure TDropBox.VerificaAcessToken;
 begin
   if FAcessToken = '' then
   begin
-    raise Exception.Create('AcessToken não foi informado.');
+    raise Exception.Create('AcessToken nï¿½o foi informado.');
   end;
 end;
 
 function TDropBox.GetException(e: EIdHTTPProtocolException): string;
 begin
+  result := '';
+  
   if e.ErrorCode = 401 then
   begin
-    result := ('Token expirado ou inválido!');
+    result := ('Token expirado ou invï¿½lido!');
   end;
 
   if e.ErrorCode = 409 then
@@ -1177,8 +1179,10 @@ begin
 
   if e.ErrorCode = 429 then
   begin
-    result := ('A aplicação está fazendo requisições demais e atingiu o limite of conexões; Aguarde 10 segundos e tente novamente.: ' + e.Message);
+    result := ('A aplicaï¿½ï¿½o estï¿½ fazendo requisiï¿½ï¿½es demais e atingiu o limite of conexï¿½es; Aguarde 10 segundos e tente novamente.: ' + e.Message);
   end;
+
+  result := result + ' ----- ' + IntToStr(e.ErrorCode) + ') ' + e.Message;
 end;
 
 procedure TDropBox.HTTPWork(ASender: TObject; AWorkMode: TWorkMode; AWorkCount: Int64);
@@ -1218,20 +1222,16 @@ end;
 procedure TDropBox.displayWriteSpeed(byteWritten: Int64);
 begin
   if byteWritten < 0 then
-  //b/egin
-  //  {writeSpeedLabel.}Caption := 'upload speed: ?';
     Exit;
-  //end;
+
   try
     elapsedMilliSeconds := GetTickCount - startWriteTime;
     elapsedSeconds := elapsedMilliSeconds div 1000;
     if elapsedSeconds <> 0 then
-    
-    speedBytesPerSeconds := byteWritten div elapsedSeconds;
+      speedBytesPerSeconds := byteWritten div elapsedSeconds;
   except
 
   end;
-  //{writeSpeedLabel.}Caption := SysUtils.Format('upload speed: %d b/s', [speedBytesPerSeconds ] );
 end;
 
 procedure TDropBox.SetProgress(const Value: Integer);
