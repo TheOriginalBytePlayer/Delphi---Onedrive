@@ -42,11 +42,11 @@ type
 
   TOnGetAccountInfo = procedure(AccountID: string; GivenName: string; DisplayName: string; Surname: string; Email: string) of object;
 
-  TOnUploadStart = procedure(FFilePath: string; FFileSize: Integer; FSentSize: Integer; FSectionID: string; FQtdArquivos: Integer; FQtdEnviados: integer) of object;
+  TOnUploadStart = procedure(FFilePath: string; FFileSize: Integer; FSentSize: Integer; FSectionID: string; FQtyFiles: Integer; FQtySent: integer) of object;
 
-  TOnUploadProgress = procedure(FFilePath: string; FFileSize: Integer; FSentSize: Integer; FSectionID: string; FQtdArquivos: Integer; FQtdEnviados: integer) of object;
+  TOnUploadProgress = procedure(FFilePath: string; FFileSize: Integer; FSentSize: Integer; FSectionID: string; FQtyFiles: Integer; FQtySent: integer) of object;
 
-  TOnUploadEnd = procedure(FFilePath: string; FFileSize: Integer; FSentSize: Integer; FSectionID: string; FQtdArquivos: Integer; FQtdEnviados: integer) of object;
+  TOnUploadEnd = procedure(FFilePath: string; FFileSize: Integer; FSentSize: Integer; FSectionID: string; FQtyFiles: Integer; FQtySent: integer) of object;
 
   TOnUploadError = procedure(FFilePath: string; FMaxFileSize: integer; FFileSize: Integer; FSentSize: Integer; FSectionID: string; FSectionDateTIme: TDateTime) of object;
 
@@ -71,8 +71,8 @@ type
     FLocale: string;
     FGivenName: string;
     FFullFileName: string;
-    FQtdParts: integer;
-    FQtdSent: integer;
+    FQtyParts: integer;
+    FQtySent: integer;
     FDataSent: integer;
     FMaxFileSize: integer;
     FSectionDateTime: TDateTime;
@@ -130,7 +130,7 @@ type
     procedure SetOnGetAccountInfo(const Value: TOnGetAccountInfo);
     procedure SetCountry(const Value: string);
     procedure SetQtdSent(const Value: integer);
-    procedure SetQtdParts(const Value: integer);
+    procedure SetQtyParts(const Value: integer);
     procedure SetTransferedBytes(const Value: Int64);
     procedure SetFullFileSize(const Value: Int64);
     procedure SetTipo(const Value: TOneDriveOP);
@@ -156,8 +156,8 @@ type
     //Folder Functions
     function GetFolders: TJSONObject;
     function GetFoldersAsString: string;
-    function GetFoldersAsList(OrdenarPorNome: boolean = false): TStringList;
-    function GetFilesAsList(OrdenarPorNome: boolean = false): TStringList;
+    function GetFoldersAsList(SortByName: boolean = false): TStringList;
+    function GetFilesAsList(SortByName: boolean = false): TStringList;
     //Upload Functions
     procedure Upload(sFile: string);
     procedure UploadSessionStart;
@@ -196,8 +196,8 @@ type
     property BytesToTransfer: Int64 read FBytesToTransfer;
     property TransferedBytes: Int64 read FTransferedBytes write SetTransferedBytes;
     property OnChange: TNotifyEvent read FOnChange write SetOnChange;
-    property QtdSent: integer read FQtdSent write SetQtdSent;
-    property QtdParts: integer read FQtdParts write SetQtdParts;
+    property QtdSent: integer read FQtySent write SetQtdSent;
+    property QtdParts: integer read FQtyParts write SetQtyParts;
     property FullFileSize: Int64 read FFullFileSize write SetFullFileSize;
     property Tipo: TOneDriveOP read FTipo write SetTipo;
     property startWriteTime: Cardinal read FstartWriteTime write SetstartWriteTime;
@@ -262,7 +262,7 @@ begin
   FLog := TStringList.Create;
   FLog.OnChange := ChangeLog;
   FMaxFileSize := 10 * (1024 * 1024); // 10MB
-  FQtdSent := 0;
+  FQtySent := 0;
   Tipo := TOpNone;
 end;
 
@@ -299,8 +299,8 @@ begin
 
     Source := TMemoryStream.Create;
     FDataSent := 0;
-    FQtdParts := 1;
-    FQtdSent := 0;
+    FQtyParts := 1;
+    FQtySent := 0;
 
     try
 
@@ -311,7 +311,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
 
       end;
@@ -370,7 +370,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -416,7 +416,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -501,7 +501,7 @@ begin
       except
         on E: EIdHTTPProtocolException do
         begin
-          FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+          FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
           raise Exception.Create(GetException(e));
         end;
       end;
@@ -558,7 +558,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -573,7 +573,7 @@ procedure TOneDrive.VerificaAcessCode;
 begin
   if FAcessCode = '' then
   begin
-    raise Exception.Create('AcessCode não foi informado.');
+    raise Exception.Create('AcessCode was not provided.');
   end;
 end;
 
@@ -600,7 +600,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
 
       end;
@@ -637,7 +637,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -648,7 +648,7 @@ begin
 
 end;
 
-function TOneDrive.GetFoldersAsList(OrdenarPorNome: boolean = false): TStringList;
+function TOneDrive.GetFoldersAsList(SortByName: boolean = false): TStringList;
 
   function Compare(List: TStringList; Index1, Index2: Integer): Integer;
   begin
@@ -685,7 +685,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -707,7 +707,7 @@ begin
           FolderList.Add(Copy(jv.Value, 2, length(jv.Value)).Replace('/', '\'));
         end;
       end;
-      if OrdenarPorNome then
+      if SortByName then
         FolderList.CustomSort(@compare);
 
       jv := jsonObj.Get('has_more').JsonValue;
@@ -723,7 +723,7 @@ begin
 
 end;
 
-function TOneDrive.GetFilesAsList(OrdenarPorNome: boolean = false): TStringList;
+function TOneDrive.GetFilesAsList(SortByName: boolean = false): TStringList;
 
   function Compare(List: TStringList; Index1, Index2: Integer): Integer;
   begin
@@ -760,7 +760,7 @@ begin
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -781,7 +781,7 @@ begin
           FolderList.Add({'Dropbox'+}Copy(jv.Value, 1, length(jv.Value)).Replace('/', '\'));
         end;
       end;
-      if OrdenarPorNome then
+      if SortByName then
         FolderList.CustomSort(@compare);
 
     end;
@@ -995,21 +995,21 @@ begin
     FDataSent := 0;
 
     try
-      //ENVIA APENAS PARTE DO ARQUIVO
+      //SEND ONLY PART OF THE FILE
       Source.Position := 0;
 
       ms.CopyFrom(Source, MaxFileSize);
       Res := IdHTTP.Post(URL_FILE_SESSION_START, ms);
 
       if Assigned(FOnUploadStart) then
-        FOnUploadStart(FFullFileName, Source.Size, FDataSent, FUploadSessionID, FQtdParts, FQtdSent);
+        FOnUploadStart(FFullFileName, Source.Size, FDataSent, FUploadSessionID, FQtyParts, FQtySent);
 
       FDataSent := ms.Size;
 
       if Assigned(FOnUploadProgress) then
-        FOnUploadProgress(FFullFileName, Source.Size, FDataSent, FUploadSessionID, FQtdParts, FQtdSent);
+        FOnUploadProgress(FFullFileName, Source.Size, FDataSent, FUploadSessionID, FQtyParts, FQtySent);
 
-      FQtdSent := 1;
+      FQtySent := 1;
 
       jsonObj := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(Res), 0) as TJSONObject;
     except
@@ -1018,7 +1018,7 @@ begin
         if Assigned(FOnUploadError) then
           FOnUploadError(FFullFileName, FMaxFileSize, Source.Size, FDataSent, FUploadSessionID, FSectionDateTime);
 
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
         raise Exception.Create(GetException(e));
       end;
     end;
@@ -1030,7 +1030,7 @@ begin
       FUploadSessionID := jv.Value;
       FSectionDateTime := now();
       FLog.Add('Upload Session Start ID: ' + FUploadSessionID);
-      FLog.Add('Enviado: ' + inttostr(FDataSent) + ' de ' + inttostr(Source.Size));
+      FLog.Add('Sent: ' + inttostr(FDataSent) + ' of ' + inttostr(Source.Size));
 
     end;
 
@@ -1087,15 +1087,15 @@ begin
 
       Res := IdHTTP.Post(URL_FILE_SESSION_APPEND, ms);
 
-      FLog.Add('Enviado: ' + inttostr(FDataSent) + ' de ' + inttostr(Source.Size));
+      FLog.Add('Sent: ' + inttostr(FDataSent) + ' of ' + inttostr(Source.Size));
 
       if Assigned(FOnUploadProgress) then
-        FOnUploadProgress(FFullFileName, Source.Size, FDataSent, FUploadSessionID, FQtdParts, FQtdSent);
+        FOnUploadProgress(FFullFileName, Source.Size, FDataSent, FUploadSessionID, FQtyParts, FQtySent);
 
     except
       on E: EIdHTTPProtocolException do
       begin
-        FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+        FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
 
         if Assigned(FOnUploadError) then
           FOnUploadError(FFullFileName, FMaxFileSize, Source.Size, FDataSent, FUploadSessionID, FSectionDateTime);
@@ -1149,12 +1149,12 @@ begin
         jsonObj := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(Res), 0) as TJSONObject;
 
         if Assigned(FOnUploadEnd) then
-          FOnUploadEnd(FFullFileName, Source.Size, FDataSent, FUploadSessionID, FQtdParts, FQtdSent);
+          FOnUploadEnd(FFullFileName, Source.Size, FDataSent, FUploadSessionID, FQtyParts, FQtySent);
 
       except
         on E: EIdHTTPProtocolException do
         begin
-          FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+          FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
 
           if Assigned(FOnUploadError) then
             FOnUploadError(FFullFileName, FMaxFileSize, Source.Size, FDataSent, FUploadSessionID, FSectionDateTime);
@@ -1197,7 +1197,7 @@ begin
   IdHTTP.OnWork := HTTPWork;
   IdHTTP.OnWorkBegin := HTTPWorkBegin;
   IdHTTP.OnWorkEnd := HTTPWorkEnd;
-  FQtdSent := 0;
+  FQtySent := 0;
 
   FTotalBytesSent := 0;
   try
@@ -1207,11 +1207,11 @@ begin
     FileSize := Source.Size;
     vMB := (FileSize / (1024 * 1024));
 
-    FLog.Add('Arquivo: ' + sFile + ' Tamanho: ' + FormatFloat('###0.###', (vMB)) + 'MB ');
+    FLog.Add('File: ' + sFile + ' Size: ' + FormatFloat('###0.###', (vMB)) + 'MB ');
 
     if FileSize < MaxFileSize then
     begin
-      FQtdParts := 1;
+      FQtyParts := 1;
       IdHTTP.HandleRedirects := True;
       IdHTTP.IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(IdHTTP);
       IdHTTP.Request.BasicAuthentication := False;
@@ -1226,7 +1226,7 @@ begin
       except
         on E: EIdHTTPProtocolException do
         begin
-          FLog.Add('Código: ' + inttostr(e.ErrorCode) + #10#13 + 'Mensagem: ' + e.ErrorMessage);
+          FLog.Add('Code: ' + inttostr(e.ErrorCode) + #10#13 + 'Message: ' + e.ErrorMessage);
           raise Exception.Create(GetException(e));
         end;
       end;
@@ -1237,15 +1237,15 @@ begin
     else
     begin
       Source.Free;
-      FQtdParts := System.Math.Ceil(FileSize / MaxFileSize);
+      FQtyParts := System.Math.Ceil(FileSize / MaxFileSize);
 
-      if FQtdSent = 0 then
+      if FQtySent = 0 then
         UploadSessionStart;
 
-      while FQtdSent < FQtdParts do
+      while FQtySent < FQtyParts do
       begin
         UploadSessionAppend;
-        FQtdSent := FQtdSent + 1;
+        FQtySent := FQtySent + 1;
       end;
       //end;
 
@@ -1261,7 +1261,7 @@ procedure TOneDrive.VerificaAcessToken;
 begin
   if FAcessToken = '' then
   begin
-    raise Exception.Create('AcessToken não foi informado.');
+    raise Exception.Create('AcessToken was not provided.');
   end;
 end;
 
@@ -1269,7 +1269,7 @@ procedure TOneDrive.VerificaRefreshToken;
 begin
   if FRefreshToken = '' then
   begin
-    raise Exception.Create('RefreshToken não foi informado.');
+    raise Exception.Create('RefreshToken was not provided.');
   end;
 end;
 
@@ -1277,17 +1277,17 @@ function TOneDrive.GetException(e: EIdHTTPProtocolException): string;
 begin
   if e.ErrorCode = 401 then
   begin
-    result := ('Token expirado ou inválido!');
+    result := ('Token expired or invalid!');
   end;
 
   if e.ErrorCode = 409 then
   begin
-    result := ('Erro no jSon: (' + IntToStr(e.ErrorCode) + ') ' + e.Message);
+    result := ('JSON Error: (' + IntToStr(e.ErrorCode) + ') ' + e.Message);
   end;
 
   if e.ErrorCode = 429 then
   begin
-    result := ('A aplicação está fazendo requisições demais e atingiu o limite de conexões; Aguarde 10 segundos e tente novamente.: ' + e.Message);
+    result := ('The application is making too many requests and reached the connection limit; Wait 10 seconds and try again.: ' + e.Message);
   end;
 
   result := result + ' ----- ' + IntToStr(e.ErrorCode) + ') ' + e.Message;
@@ -1351,7 +1351,7 @@ end;
 
 procedure TOneDrive.SetQtdSent(const Value: integer);
 begin
-  FQtdSent := Value;
+  FQtySent := Value;
 end;
 
 procedure TOneDrive.SetRefreshToken(const Value: string);
@@ -1369,9 +1369,9 @@ begin
   FstartWriteTime := Value;
 end;
 
-procedure TOneDrive.SetQtdParts(const Value: integer);
+procedure TOneDrive.SetQtyParts(const Value: integer);
 begin
-  FQtdParts := Value;
+  FQtyParts := Value;
 end;
 
 end.

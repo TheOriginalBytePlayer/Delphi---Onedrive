@@ -65,7 +65,7 @@ begin
   if OneDrive.AcessToken <> '' then
   begin
     edtAcessToken.Text := OneDrive.AcessToken;
-    Panel1.Caption := 'Acess Token válido até: ' + FormatDateTime('c', IncHour(OneDrive.AcessTokenDateTime, 1));
+    Panel1.Caption := 'Access Token valid until: ' + FormatDateTime('c', IncHour(OneDrive.AcessTokenDateTime, 1));
   end;
 end;
 
@@ -85,7 +85,7 @@ begin
     if OneDrive.AcessToken <> '' then
     begin
       edtAcessToken.Text := OneDrive.AcessToken;
-      Panel1.Caption := 'Acess Token válido até: ' + FormatDateTime('c', IncHour(OneDrive.AcessTokenDateTime, 1));
+      Panel1.Caption := 'Access Token valid until: ' + FormatDateTime('c', IncHour(OneDrive.AcessTokenDateTime, 1));
     end;
   end;
 end;
