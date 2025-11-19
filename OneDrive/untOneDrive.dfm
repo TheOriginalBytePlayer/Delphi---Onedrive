@@ -19,7 +19,7 @@ object frmOneDrive: TfrmOneDrive
     Top = 8
     Width = 409
     Height = 184
-    Caption = '  Fun'#231#245'es de Login  '
+    Caption = '  Login Functions  '
     TabOrder = 0
     object Button1: TButton
       Left = 16

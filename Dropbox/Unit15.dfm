@@ -243,7 +243,7 @@ object Form15: TForm15
       Height = 28
       TabOrder = 0
     end
-    object edtArquivo: TEdit
+    object edtFile: TEdit
       Left = 6
       Top = 28
       Width = 203
@@ -304,7 +304,7 @@ object Form15: TForm15
       Top = 28
       Width = 37
       Height = 17
-      Caption = 'Pasta:'
+      Caption = 'Folder:'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -317,7 +317,7 @@ object Form15: TForm15
       Top = 6
       Width = 126
       Height = 16
-      Caption = 'PASTAS/ARQUIVOS'
+      Caption = 'FOLDERS/FILES'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -364,7 +364,7 @@ object Form15: TForm15
       TabOrder = 3
       OnDblClick = TreeView1DblClick
     end
-    object edtPasta: TEdit
+    object edtFolder: TEdit
       Left = 65
       Top = 28
       Width = 222
@@ -372,7 +372,7 @@ object Form15: TForm15
       Anchors = [akLeft, akTop, akRight]
       Enabled = False
       TabOrder = 4
-      Text = 'edtPasta'
+      Text = 'edtFolder'
     end
   end
   object Panel2: TPanel
